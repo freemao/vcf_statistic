@@ -2,6 +2,9 @@
 #-*- coding:utf-8 -*-
 
 def basic_statistic(*names):
+    '''Through statistic by this function, you will get a file which contain
+    each files' total snp, the number of 0/1, 0/0, and 1/1.
+    '''
     f0 = open('statistic_results.txt', 'w')
     f0.write('samples\t0/0\t0/1\t1/1\ttotal\n')
     for fn in names:
@@ -27,7 +30,8 @@ def basic_statistic(*names):
                 else:
                     others += 1
         f1.close()
-        f0.write(sm + '\t' + str(zerzer) + '\t' + str(zerone) + '\t' + str(oneone) + '\t' + str(others) + '\n')
+        f0.write(sm + '\t' + str(zerzer) + '\t' + str(zerone) + '\t' + \
+str(oneone) + '\t' + str(others) + '\n')
     f0.close()
 
 if __name__ == '__main__':
