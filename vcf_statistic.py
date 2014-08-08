@@ -37,9 +37,11 @@ str(oneone) + '\t' + str(others) + '\t' + str(total) + '\n')
 def VariantType_fb_statistic(*names):
     from VCF_Parser import FbVcf
     '''This function is designed for freebayes, you will get a file which
-    contain each files' total Haplotype, the number of SNP, INDEL, MNP, COMPLEX.
+    contain each vcf files' total variant type, snp, ins, del, mnp, complex
+    ,other types('snp,snp', 'ins,snp', 'ins,ins'...)and these number of
+    each sequence of each freebayse vcf file.
     '''
-    f0 = open('VariantType_results.txt', 'w')
+    f0 = open('FB.VariantType.results.txt', 'w')
     f0.write('samples\tSNP\tINS\tDEL\tMNP\tCOMPLEX\tOTHERS\tTOTAL\n')
     for fn in names:
         sm = '.'.join(fn.split('.')[0:-1])
@@ -48,7 +50,6 @@ def VariantType_fb_statistic(*names):
 0, 0, 0, 0, 0, 0, 0
         Etotal, Esnp, Eins, Edeletion, Emnp, Ecomplex, Eothers = \
 0, 0, 0, 0, 0, 0, 0
-        chrset = set()
         chrlist = []
         for i in f1:
             if i.startswith('#'):
@@ -59,77 +60,77 @@ def VariantType_fb_statistic(*names):
                 Chr = instance1.chr(i)
                 vartype = instance1.VariantType(i)
                 if Chr not in chrlist and len(chrlist)==0:
-                    if vartype == 'snp':
+                    '''if vartype == 'snp':
                         Tsnp += 1
                         Esnp += 1
-                    if vartype == 'ins':
+                    elif vartype == 'ins':
                         Tins += 1
                         Eins += 1
-                    if vartype == 'del':
+                    elif vartype == 'del':
                         Tdeletion += 1
                         Edeletion += 1
-                    if vartype == 'mnp':
+                    elif vartype == 'mnp':
                         Tmnp += 1
                         Emnp += 1
-                    if vartype == 'complex':
+                    elif vartype == 'complex':
                         Tcomplex += 1
                         Ecomplex += 1
                     else :
                         Tothers += 1
                         Eothers += 1
-                    Etotal += 1
-                    chrlist.append(Chr)
-                if Chr not in chrlist and len(chrlist)!=0:
-                    f0.write(chrlist[-1] + '\t' + str(Esnp) + '\t' + str(Eins) + '\t' + \
-str(Edeletion) + '\t' + str(Emnp)+'\t'+str(Ecomplex)+'\t'+str(Eothers) \
-+ '\t' + str(Etotal-1) + '\n')
-                    Esnp, Eins, Edeletion, Emnp, Ecomplex, Eothers, Etotal =\
-0, 0, 0, 0, 0, 0, 0
-                    if vartype == 'snp':
-                        Tsnp += 1
-                        Esnp += 1
-                    if vartype == 'ins':
-                        Tins += 1
-                        Eins += 1
-                    if vartype == 'del':
-                        Tdeletion += 1
-                        Edeletion += 1
-                    if vartype == 'mnp':
-                        Tmnp += 1
-                        Emnp += 1
-                    if vartype == 'complex':
-                        Tcomplex += 1
-                        Ecomplex += 1
-                    else :
-                        Tothers += 1
-                        Eothers += 1
-                    Etotal += 1
+                    Etotal += 1'''
                     chrlist.append(Chr)
                 if Chr in chrlist:
                     if vartype == 'snp':
                         Tsnp += 1
                         Esnp += 1
-                    if vartype == 'ins':
+                    elif vartype == 'ins':
                         Tins += 1
                         Eins += 1
-                    if vartype == 'del':
+                    elif vartype == 'del':
                         Tdeletion += 1
                         Edeletion += 1
-                    if vartype == 'mnp':
+                    elif vartype == 'mnp':
                         Tmnp += 1
                         Emnp += 1
-                    if vartype == 'complex':
+                    elif vartype == 'complex':
                         Tcomplex += 1
                         Ecomplex += 1
                     else :
                         Tothers += 1
                         Eothers += 1
                     Etotal += 1
+                if Chr not in chrlist and len(chrlist)!=0:
+                    f0.write(chrlist[-1] + '\t' + str(Esnp) + '\t' + str(Eins) + '\t' + \
+str(Edeletion) + '\t' + str(Emnp)+'\t'+str(Ecomplex)+'\t'+str(Eothers) \
++ '\t' + str(Etotal) + '\n')
+                    Esnp, Eins, Edeletion, Emnp, Ecomplex, Eothers, Etotal =\
+0, 0, 0, 0, 0, 0, 0
+                    if vartype == 'snp':
+                        Tsnp += 1
+                        Esnp += 1
+                    elif vartype == 'ins':
+                        Tins += 1
+                        Eins += 1
+                    elif vartype == 'del':
+                        Tdeletion += 1
+                        Edeletion += 1
+                    elif vartype == 'mnp':
+                        Tmnp += 1
+                        Emnp += 1
+                    elif vartype == 'complex':
+                        Tcomplex += 1
+                        Ecomplex += 1
+                    else :
+                        Tothers += 1
+                        Eothers += 1
+                    Etotal += 1
+                    chrlist.append(Chr)
 
         f1.close()
         f0.write(chrlist[-1] + '\t' + str(Esnp) + '\t' + str(Eins) + '\t' + \
-str(Edeletion) + '\t' + str(Emnp)+'\t'+str(Ecomplex)+'\t'+str(Eothers) \
-i '\t' + str(Etotal-1) + '\n\n')
+str(Edeletion) + '\t' + str(Emnp)+'\t'+str(Ecomplex)+'\t'+str(Eothers) +\
+ '\t' + str(Etotal) + '\n\n')
         f0.write(sm + '\t' + str(Tsnp) + '\t' + str(Tins) + '\t' + \
 str(Tdeletion) + '\t' + str(Tmnp)+'\t'+str(Tcomplex)+'\t'+str(Tothers) \
 + '\t' + str(Ttotal) + '\n')
