@@ -19,7 +19,7 @@ def GenoType_statistic(vcfname):
     f0 = open('genotype_results.txt', 'w')
     f0.write('samples\t0/0\t0/1\t1/1\tothers\ttotal\n')
     sm = '.'.join(vcfname.split('.')[0:-1])
-    f1 = open(fn, 'r')
+    f1 = open(vcfname, 'r')
     total = 0
     zerzer = 0
     zerone = 0
@@ -53,7 +53,7 @@ def VariantType_fb_statistic(vcfname):
     '''
     f0 = open('FB.VariantType.results.txt', 'w')
     f0.write('samples\tSNP\tINS\tDEL\tMNP\tCOMPLEX\tOTHERS\tTOTAL\n')
-    sm = '.'.join(fn.split('.')[0:-1])
+    sm = '.'.join(vcfname.split('.')[0:-1])
     f1 = open(vcfname, 'r')
     Ttotal, Tsnp, Tins, Tdeletion, Tmnp, Tcomplex, Tothers = \
 0, 0, 0, 0, 0, 0, 0
